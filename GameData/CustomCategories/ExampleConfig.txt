@@ -1,0 +1,45 @@
+CUSTOM_CATEGORY
+{
+    // Not needed, but makes Module Manager manipulation easier
+    name = default
+
+    category = Pods
+    category = FuelTank
+    category = Engine
+    category = Control
+    category = Structural
+    category = Coupling
+    category = Payload
+    category = Aero
+    category = Ground
+    category = Thermal
+    category = Electrical
+    category = Communication
+    category = Science
+    category = Cargo
+    category = Robotics
+    category = Utility
+
+    // The placement of each cateogry entry determines
+    // where it will appear in the editor parts tab
+    category = Resources
+
+    SUB_CATEGORY
+    {
+        // Name of the subcategory to tweak
+        name = Science
+        // Specific the icon. You can also prefix with stockIcon_ to load stock icons
+        // e.g. icon = stockIcon_Utility
+        icon = iconFileName 
+        // The tooltip of the icon
+        displayName = Science (With spaces!)
+    }
+}
+
+// Example Module Manager Patch that assigns the Large Ore Tank to a new Resources category
+@PART[LargeTank]
+{
+    // Use this tag to assign a part to a custom category
+    // Note the use of the % operator for create or edit
+    %categoryCustom = Resources
+}
