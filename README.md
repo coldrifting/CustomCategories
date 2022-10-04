@@ -2,14 +2,12 @@
 KSP mod that adds the ability to use extra part sorting categories in the editor
 
 # Description
-This mod allows you to create custom categories for sorting parts in the VAB and SPH.
-You can create new categories, give categories new icons, and change the display name of existing categories.
-Unlike other category mods, categories created in this mod are exclusive, so each part only exists in a single
-category.
+This mod allows you to create custom categories for sorting parts in the VAB and SPH. You can create new categories, give categories new icons, and change the display name of existing categories. Unlike other category mods, categories created in this mod are exclusive, so each part only exists in a single category.
+
+Why use this mod vs the CommunityCategoryKit or FilterExtensions? When using the CCK to move parts to new categories, they become unsearchable. You can get around this by using the FilterExtensions mod, but you lose the ability to use Module Manager to create categories, and creating exlusive categories can become quite complex very quickly.
 
 # Configuration
-If a part has a categoryCustom value (which you could add with Module Manager), the part is assigned to that category, 
-creating it if it doesn't already exist. Otherwise the default category value of the part is used. 
+This mod provides a very simply way to define new categories. If you define a categoryCustom tag inside a part (usually via a Module Manager patch), the mod will move that part to the defined category, creating that category if it does not already exist. Otherwise, the stock category value will be used.
 
 Here's an example of a possible config file:
 
