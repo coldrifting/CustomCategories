@@ -101,7 +101,7 @@ public static class Categories
                         }
                         
                         // Special cases for default categories
-                        if (categoryName == "fueltank" && partCategory == "propulsion")
+                        if (categoryName.ToLower() == "fueltank" && partCategory == "propulsion")
                         {
                             foreach (var mi in part.moduleInfos)
                             {
@@ -114,7 +114,7 @@ public static class Categories
                             return true;  
                         }
 
-                        if (categoryName == "engine" && partCategory == "propulsion")
+                        if (categoryName.ToLower() == "engine" && partCategory == "propulsion")
                         {
                             foreach (var mi in part.moduleInfos)
                             {
