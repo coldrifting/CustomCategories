@@ -14,25 +14,27 @@ Here's an example of a possible config file:
 ```
 CUSTOM_CATEGORY
 {
-    // The order of these category nodes determines the order in-game
-    // If you wish to insert categories in-between default categories,
-    // you should define all default categories here along with new ones 
-    category = Pods
-    category = Resources // New category
-    category = FuelTank // Actual name of the Fuel Tanks category
-  
-    // These are optional
+    // An example of creating a new category
     SUB_CATEGORY
     {
-      name = Resources // Used to map a subcategory node to a category. It doesn't have to be defined above
-      icon = stockIcon_Utility // Use a stock icon
+      name = Resources // A unique id for the category
+      icon = stockIcon_Utility // Use a stock icon. Search the KSP log for '[CustomCategories] Valid Icon Names Listed Below:' to see a valid list
+      priority = 1 // Determines the ordering of categories. Default categories default to 1-16, based on their vanilla ordering, unless you change them
     }
   
+    // And an example of editing an existing category
     SUB_CATEGORY
     {
       name = FuelTank
-      icon = customFuelTankIcon // Use a custom 32x32 pixel somewhere in the GameData folder
+      icon = customFuelTankIcon // The filename without extension of a 32 by 32 pixel image somewhere in the GameData folder. Case Sensitive.
       displayName = Fuel Tanks // Override existing category names so that they show up with spaces in-game
+      priority = 2
+    }
+
+    SUB_CATEGORY
+    {
+      name = Utility
+      hidden = true // Override existing category names so that they show up with spaces in-game
     }
 }
 ```
