@@ -46,26 +46,15 @@ public static class Icons
             IconLookup.TryAdd(icon.name, icon);
         }
 
-        HashSet<string> allIcons = [];
         foreach (KeyValuePair<string, Icon> kvp in PartCategorizer.Instance.iconLoader.iconDictionary)
         {
             if (kvp.Key.StartsWith("stockIcon_") || kvp.Key.StartsWith("serenityIcon_"))
             {
-                allIcons.Add(kvp.Key);
                 IconLookup.TryAdd(kvp.Key, kvp.Value);
             }
         }
-        foreach (string iconName in IconLookup.Keys)
-        {
-            allIcons.Add(iconName);
-        }
         
-        Log($"Icon Database Successfully Generated. Found {allIcons.Count} Icons");
-        Log("Valid Icon Names Listed Below:");
-        foreach (string icon in allIcons)
-        {
-            Log(icon);
-        }
+        Log($"Icon Database Successfully Generated. Found {IconLookup.Count} Icons");
     }
 
     public static Icon GetIcon(string iconName)
