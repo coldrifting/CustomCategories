@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CustomCategories.Data;
+using KSP.Localization;
 using UnityEngine;
 using KSP.UI.Screens;
 using RUI.Icons.Selectable;
@@ -15,6 +16,7 @@ public class CustomCategoriesPatcher : MonoBehaviour
     public void Start()
     {
         Log("Starting...");
+
         Icons.GenerateIconDatabase();
         Parts.GeneratePartDatabase();
         Categories.GenerateDatabase();
@@ -22,15 +24,14 @@ public class CustomCategoriesPatcher : MonoBehaviour
         const PartCategorizer.ButtonType buttonType = PartCategorizer.ButtonType.SUBCATEGORY;
         const EditorPartList.State displayType = EditorPartList.State.PartsList;
 
-        PartCategorizer.Category mainCategory = PartCategorizer.Instance.filters.Find(c => c.button.categoryName == "Filter by Function");
+        string filterByFunctionText = Localizer.GetStringByTag("#autoLOC_453547");
+        PartCategorizer.Category mainCategory = PartCategorizer.Instance.filters.Find(c => c.button.categoryName == filterByFunctionText);
         if (mainCategory == null)
         {
-            Log("Unable to find filter by function");
+            Log("Unable to find Filter by Function category");
             return;
         }
         
-        int numStockCategoriesToRemove = mainCategory.subcategories.Count;
-
         List<PartCategorizer.Category> categoriesToRemove = [];
         foreach (PartCategorizer.Category category in mainCategory.subcategories)
         {
@@ -45,7 +46,7 @@ public class CustomCategoriesPatcher : MonoBehaviour
                 buttonType,
                 displayType,
                 category.Name,
-                category.DisplayName,
+                category.Label,
                 icon,
                 PartCategorizer.Instance.colorFilterFunction,
                 PartCategorizer.Instance.colorIcons,

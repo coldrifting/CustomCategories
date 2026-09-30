@@ -46,8 +46,8 @@ public static class Parts
 
                 catLowercase = hasEngine ? "engine" : "fueltank";
             }
-            
-            PartCategories.Add(part.name, catLowercase);
+
+            PartCategories[part.name] = catLowercase;
         }
         
         Log("Updated part categories");
