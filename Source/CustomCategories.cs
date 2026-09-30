@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CustomCategories.Data;
 using UnityEngine;
 using KSP.UI.Screens;
@@ -23,54 +22,49 @@ public class CustomCategoriesPatcher : MonoBehaviour
         const PartCategorizer.ButtonType buttonType = PartCategorizer.ButtonType.SUBCATEGORY;
         const EditorPartList.State displayType = EditorPartList.State.PartsList;
 
-        Log("Replacing Subcategories...");
-        ReplaceSubCategories(PartCategorizer.Instance.filters[0], () =>
+        PartCategorizer.Category mainCategory = PartCategorizer.Instance.filters.Find(c => c.button.categoryName == "Filter by Function");
+        if (mainCategory == null)
         {
-            foreach (CategoryDef category in Categories.GetCategories())
+            Log("Unable to find filter by function");
+            return;
+        }
+        
+        int numStockCategoriesToRemove = mainCategory.subcategories.Count;
+
+        List<PartCategorizer.Category> categoriesToRemove = [];
+        foreach (PartCategorizer.Category category in mainCategory.subcategories)
+        {
+            categoriesToRemove.Add(category);
+        }
+        
+        Log("Adding Custom Subcategories...");
+        foreach (CategoryDef category in Categories.GetCategories())
+        {
+            Icon icon = Icons.GetIcon(category.Icon);
+            PartCategorizer.Category newSubCategory = new(
+                buttonType,
+                displayType,
+                category.Name,
+                category.DisplayName,
+                icon,
+                PartCategorizer.Instance.colorFilterFunction,
+                PartCategorizer.Instance.colorIcons,
+                category.Filter);
+
+            if (category.ShouldCategoryBeShown())
             {
-                Icon icon = Icons.GetIcon(category.Icon);
-                PartCategorizer.Category newSubCategory = new(
-                    buttonType,
-                    displayType,
-                    category.Name,
-                    category.DisplayName,
-                    icon,
-                    PartCategorizer.Instance.colorFilterFunction,
-                    PartCategorizer.Instance.colorIcons,
-                    category.Filter);
-
-                if (category.ShouldCategoryBeShown())
-                {
-                    PartCategorizer.Instance.filters[0].AddSubcategory(newSubCategory);
-                }
+                mainCategory.AddSubcategory(newSubCategory);
             }
-        });
+        }
+        
+        mainCategory.InsertSubcategoryButtons();
+        
+        Log("Removing Stock Subcategories...");
+        foreach (PartCategorizer.Category category in categoriesToRemove)
+        {
+            category.DeleteSubcategory();
+        }
+        
         Log("Done!");
-    }
-
-    public void ReplaceSubCategories(PartCategorizer.Category category, Action work)
-    {
-        // Delete all but 1 subcategory to keep UI from breaking
-        List<PartCategorizer.Category> categories = [];
-        for (int index = 0; index < category.subcategories.Count - 1; index++)
-        {
-            categories.Add(category.subcategories[index]);
-        }
-        foreach (PartCategorizer.Category subCategory in categories)
-        {
-            subCategory.DeleteSubcategory();
-        }
-        
-        work.Invoke();
-        
-        // Once we have added our categories, we can remove the last remaining original one
-        if (PartCategorizer.Instance.filters[0].subcategories.Count > 1)
-        {
-            PartCategorizer.Instance.filters[0].subcategories[0].DeleteSubcategory();
-        }
-        
-        // Refresh
-        Log("Refreshing...");
-        PartCategorizer.Instance.filters[0].RebuildSubcategoryButtons();
     }
 }
