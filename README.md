@@ -12,30 +12,27 @@ This mod provides a very simply way to define new categories. If you define a ca
 Here's an example of a possible config file:
 
 ```
+// An example of creating a new category
 CUSTOM_CATEGORY
 {
-    // An example of creating a new category
-    SUB_CATEGORY
-    {
-      name = Resources // A unique id for the category
-      icon = stockIcon_Utility // Use a stock icon. Search the KSP log for '[CustomCategories] Valid Icon Names Listed Below:' to see a valid list
-      priority = 1 // Determines the ordering of categories. Default categories default to 1-16, based on their vanilla ordering, unless you change them
-    }
+  name = resources // A unique id for the category
+  icon = stockIcon_Utility // Use a stock icon. Search the KSP log for '[CustomCategories] Valid Icon Names Listed Below:' to see a valid list
+  priority = 1 // Determines the ordering of categories. Default categories default to 1-16, based on their vanilla ordering, unless you change them
+}
   
-    // And an example of editing an existing category
-    SUB_CATEGORY
-    {
-      name = FuelTank
-      icon = customFuelTankIcon // The filename without extension of a 32 by 32 pixel image somewhere in the GameData folder. Case Sensitive.
-      displayName = Fuel Tanks // Override existing category names so that they show up with spaces in-game
-      priority = 2
-    }
+// And an example of editing an existing category
+CUSTOM_CATEGORY
+{
+  name = fueltank
+  icon = customFuelTankIcon // The filename without extension of a 32 by 32 pixel image somewhere in the GameData folder. Case Sensitive.
+  label = Fuel Tanks // The name of the category as shown in the in-game tooltip
+  priority = 2
+}
 
-    SUB_CATEGORY
-    {
-      name = Utility
-      hidden = true // Override existing category names so that they show up with spaces in-game
-    }
+CUSTOM_CATEGORY
+{
+  name = utility
+  hidden = true // Override existing category names so that they show up with spaces in-game
 }
 ```
 
@@ -44,11 +41,11 @@ And a small module manager patch to assign a part to a new custom category:
 ```
 @PART[oreTank]
 {
-    %categoryCustom = Resources // Use the category name, not the display name
+    %categoryCustom = Resources // Use the category name, not the label name
 }
 ```
 
-Please note that if you don't have a config file defined, the mod should still work just fine and all vanilla categories should function as they usually do.
+If you don't have a config file defined, all categories should function as they do in a vanilla install.
 
 # Compatibility
 I have not tested it, but this mod is very likely incompatible with the FilterExtensions and CommunityCategoryKit mods, since they do the same thing as this mod.
