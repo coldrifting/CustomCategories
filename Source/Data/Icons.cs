@@ -4,9 +4,9 @@ using UnityEngine;
 using KSP.UI.Screens;
 using RUI.Icons.Selectable;
 
-using static CustomCategories.Utils;
+using static CustomCategories.Data.Utils;
 
-namespace CustomCategories;
+namespace CustomCategories.Data;
 
 public static class Icons
 {

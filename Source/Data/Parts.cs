@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-using static CustomCategories.Utils;
+using static CustomCategories.Data.Utils;
 
-namespace CustomCategories;
+namespace CustomCategories.Data;
 
 public static class Parts
 {
@@ -31,15 +31,40 @@ public static class Parts
             {
                 continue;
             }
+
+            if (catLowercase == "propulsion")
+            {
+                bool hasEngine = false;
+                foreach (AvailablePart.ModuleInfo mi in part.moduleInfos)
+                {
+                    if (mi.moduleName == "Engine")
+                    {
+                        hasEngine = true;
+                        break;
+                    }
+                }
+
+                catLowercase = hasEngine ? "engine" : "fueltank";
+            }
             
             PartCategories.Add(part.name, catLowercase);
         }
         
-        Utils.Log("Updated part categories");
+        Log("Updated part categories");
     }
 
     public static string GetPartCategory(string part)
     {
-        return PartCategories.GetValueOrDefault(part, "-1");
+        return PartCategories.GetValueOrDefault(part, "none");
+    }
+
+    public static bool IsPartDeprecated(AvailablePart part)
+    {
+        if (part == null || string.IsNullOrEmpty(part.partUrl))
+        {
+            return false;
+        }
+
+        return part.partUrl.Contains("zDeprecated");
     }
 }
